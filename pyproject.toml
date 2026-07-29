@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "dio blog"
+version = "0.1.0"
+description = ""
+authors = ["Vanessa Nery, <nery_van@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.14"
+flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-jwt-extended = "^4.7.4"
+pytest = "*"
+
+# pyproject.toml
+pytest-mock = "*"
+gunicorn = "*"
+[tool.pytest]
+addopts = ["-ra", "-vvv"]
+testpaths = [
+    "tests"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
