@@ -6,7 +6,7 @@ authors = ["Vanessa Nery, <nery_van@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.14"
+python = ">=3.12,<4.0"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
@@ -16,6 +16,7 @@ pytest = "*"
 # pyproject.toml
 pytest-mock = "*"
 gunicorn = "*"
+psycopg2-binary = "*"
 [tool.pytest]
 addopts = ["-ra", "-vvv"]
 testpaths = [
