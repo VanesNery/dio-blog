@@ -12,10 +12,8 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-jwt-extended = "^4.7.4"
-pytest = "*"
 
 # pyproject.toml
-pytest-mock = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 [tool.pytest]
@@ -27,3 +25,9 @@ testpaths = [
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+dev = [
+    "pytest",
+    "pytest-mock"
+]
