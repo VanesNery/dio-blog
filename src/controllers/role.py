@@ -15,7 +15,7 @@ def create_role():
     return {'message': 'Role criada com sucesso!'}, HTTPStatus.CREATED
 
 
-app.route('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def list_roles():
     # Lógica para listar todas as roles
     query = db.select(Role)
