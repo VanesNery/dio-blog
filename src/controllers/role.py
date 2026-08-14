@@ -13,3 +13,11 @@ def create_role():
     db.session.add(role)
     db.session.commit()
     return {'message': 'Role criada com sucesso!'}, HTTPStatus.CREATED
+
+
+app.route('/', methods=['GET'])
+def list_roles():
+    # Lógica para listar todas as roles
+    query = db.select(Role)
+    results = db.session.execute(query).scalars().all()
+    return {'roles': [{'id': role.id, 'name': role.name} for role in results]}, HTTPStatus.OK
