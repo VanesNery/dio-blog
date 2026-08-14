@@ -1,12 +1,11 @@
 from datetime import datetime
 
-from flask import Flask, current_app
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 import sqlalchemy as sa
-import click
 
 
 class Base(DeclarativeBase):
@@ -48,15 +47,7 @@ class Post(db.Model):
 
     def __repr__(self) -> str:
         return f"Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r})"
-    
 
-@click.command('init-db')
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    global db
-    with current_app.app_context():
-        db.create_all()
-    click.echo('Initialized the database.')
 
 def create_app(test_config=None):
     # create and configure the app
@@ -74,8 +65,6 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    # register the database commands
-    app.cli.add_command(init_db_command)
 
     # ensure the instance folder exists
     db.init_app(app)
