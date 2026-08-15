@@ -1,8 +1,10 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 import sqlalchemy as sa
 from src.models.base import db
-from src.models.user import User
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from src.models.user import User
 
 class Role(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)

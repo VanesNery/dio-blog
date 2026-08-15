@@ -1,7 +1,10 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 import sqlalchemy as sa
 from src.models.base import db
-from src.models.role import Role
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.models.role import Role
 
 
 class User(db.Model):    
