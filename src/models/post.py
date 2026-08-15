@@ -1,7 +1,7 @@
 from sqlalchemy.orm import mapped_column, Mapped
 import sqlalchemy as sa
 from datetime import datetime
-from src.models.base import db
+from .base import db
 
 
 class Post(db.Model):    

@@ -1,8 +1,8 @@
 from http import HTTPStatus
 
 from flask import Blueprint, request
-from src.models.base import db
-from src.models.role import Role
+from src.models import db, Role
+
 
 app = Blueprint('role', __name__, url_prefix='/roles')
 

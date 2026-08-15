@@ -1,10 +1,6 @@
-from sqlalchemy.orm import mapped_column, Mapped, relationship
 import sqlalchemy as sa
-from src.models.base import db
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from src.models.role import Role
+from sqlalchemy.orm import mapped_column, Mapped, relationship
+from .base import db
 
 
 class User(db.Model):    
@@ -13,7 +9,7 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(sa.String, nullable=False)    
     active: Mapped[bool] = mapped_column(sa.Boolean, default=True)    
     role_id: Mapped[int] = mapped_column(sa.ForeignKey('role.id'), nullable=True)    
-    role: Mapped['Role'] = relationship('Role', back_populates='user')
+    role: Mapped['role.Role'] = relationship('Role', back_populates='user')
 
     def __repr__(self) -> str:       
         return f"User(id={self.id!r}, username={self.username!r}, active={self.active!r}))"
