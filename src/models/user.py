@@ -1,5 +1,7 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 import sqlalchemy as sa
+from src.models.models import db
+from src.models.role import Role
 
 
 class User(db.Model):    
