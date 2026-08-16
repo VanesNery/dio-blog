@@ -17,6 +17,9 @@ flask-jwt-extended = "^4.7.4"
 gunicorn = "*"
 psycopg2-binary = "*"
 flask-bcrypt = "*"
+flask-marshmallow = "*"
+marshmallow = "<4"
+
 [tool.pytest]
 addopts = ["-ra", "-vvv"]
 testpaths = [

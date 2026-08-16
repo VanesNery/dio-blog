@@ -6,41 +6,52 @@ from sqlalchemy import inspect
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from src.utils import requires_role
 from src.app import bcrypt
+from src.views.user import CreateUserSchema, UserSchema
+from marshmallow import ValidationError
 
 app = Blueprint('user', __name__, url_prefix='/users')
 
 def _create_user():
     # Lógica para criar um novo usuário
-    data = request.json
-    user = User(username=data['username'], 
-                password=bcrypt.generate_password_hash(data['password']), 
-                role_id=data['role_id'])
+    user_schema = CreateUserSchema()
+
+    try:
+        data = user_schema.load(request.json)
+    except ValidationError as err:
+        return {'errors': err.messages}, HTTPStatus.UNPROCESSABLE_ENTITY
+
+    user = User(
+        username=data['username'], 
+        password=bcrypt.generate_password_hash(data['password']), 
+        role_id=data['role_id']
+    )
     db.session.add(user)
     db.session.commit()
+    return {'message': 'Usuário criado com sucesso!'}, HTTPStatus.CREATED
 
 
+@jwt_required()
+@requires_role('admin')
 def _list_users():
     # Lógica para listar todos os usuários
+    user_id = get_jwt_identity()
+    user = db.get_or_404(User, user_id)
     query = db.select(User)
-    results = db.session.execute(query).scalars().all()
-    return [{'id': user.id, 'username': user.username, 'role_id': user.role_id} for user in results]
+    users = db.session.execute(query).scalars()
+    users_schema = UserSchema(many=True)
+    return users_schema.dump(users)
 
 
 @app.route('/', methods=['GET', 'POST'])
-@jwt_required()
-@requires_role('admin')
 def list_or_create_users():
 
     if request.method == 'POST':
         # Lógica para criar um novo usuário
         _create_user()
-        return {'message': 'Usuário criado com sucesso!'}, HTTPStatus.CREATED
 
-    user_id = get_jwt_identity()
-    user = db.get_or_404(User, user_id)
 
-    if not user.role or user.role.name != 'admin':
-        return {'message': 'Acesso negado. Apenas administradores podem acessar esta rota.'}, HTTPStatus.FORBIDDEN
+    # if not user.role or user.role.name != 'admin':
+    #     return {'message': 'Acesso negado. Apenas administradores podem acessar esta rota.'}, HTTPStatus.FORBIDDEN
 
     # Lógica para listar todos os usuários
     return {'users': _list_users()}, HTTPStatus.OK
