@@ -16,6 +16,7 @@ flask-jwt-extended = "^4.7.4"
 # pyproject.toml
 gunicorn = "*"
 psycopg2-binary = "*"
+flask-bcrypt = "*"
 [tool.pytest]
 addopts = ["-ra", "-vvv"]
 testpaths = [
